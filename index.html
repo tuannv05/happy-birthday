@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- Chống Cache Trình Duyệt -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>Happy Birthday ✨ Chúc Mừng Sinh Nhật</title>
   
   <!-- Favicon -->
@@ -126,7 +130,46 @@
     100% { transform: rotate(360deg); }
   }
 
-  /* Nút Mở Studio Tự Tạo Thiệp (Top-Left) */
+  /* ==================== TRIỆT TIÊU TOÀN BỘ TOP BAR / HEADER CŨ & MỚI ==================== */
+  .top-nav,
+  header.top-nav,
+  .brand-badge,
+  .act-pills,
+  .act-dot,
+  .btn-open-studio,
+  .btn-toggle-music {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    top: -9999px !important;
+  }
+
+  /* ==================== CHẾ ĐỘ NGƯỜI NHẬN THIỆP (RECIPIENT MODE) ==================== */
+  /* Khi người nhận mở link chia sẻ: ẨN 100% mọi nút bấm / thanh công cụ / studio trên cùng */
+  body.recipient-mode .btn-studio-toggle,
+  body.recipient-mode .studio-modal,
+  body.recipient-mode .share-link-modal,
+  body.recipient-mode #creator-studio-modal,
+  body.recipient-mode #share-link-modal,
+  body.recipient-mode #btn-studio-toggle,
+  body.recipient-mode header,
+  body.recipient-mode nav {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
+    transform: scale(0) !important;
+    position: absolute !important;
+    top: -9999px !important;
+  }
+
+  /* Nút Mở Studio Tự Tạo Thiệp (Top-Left, chỉ hiện khi người tạo mở link gốc) */
   .btn-studio-toggle {
     position: fixed;
     top: 20px;
@@ -1452,6 +1495,8 @@
   function loadUrlData() {
     const urlParams = new URLSearchParams(window.location.search);
     const compressed = urlParams.get('c');
+    const isExplicitRecipient = urlParams.get('view') === 'card' || urlParams.get('mode') === 'recipient' || !!compressed;
+
     if (compressed && window.LZString) {
       try {
         const json = window.LZString.decompressFromEncodedURIComponent(compressed);
@@ -1471,7 +1516,7 @@
         console.warn('Decompress error:', e);
       }
     }
-    return false;
+    return isExplicitRecipient;
   }
 
   // ==================== INIT UI WITH CONFIG ====================
@@ -1847,14 +1892,18 @@
     cfgLetter.value = CONFIG.letter;
   }
 
-  btnStudioToggle.addEventListener('click', () => {
-    populateStudioForm();
-    studioModal.classList.remove('hide');
-  });
+  if (btnStudioToggle && studioModal) {
+    btnStudioToggle.addEventListener('click', () => {
+      populateStudioForm();
+      studioModal.classList.remove('hide');
+    });
+  }
 
-  btnCloseStudio.addEventListener('click', () => {
-    studioModal.classList.add('hide');
-  });
+  if (btnCloseStudio && studioModal) {
+    btnCloseStudio.addEventListener('click', () => {
+      studioModal.classList.add('hide');
+    });
+  }
 
   // Handle Photo selection
   btnChoosePhotos.addEventListener('click', () => cfgPhotoInput.click());
@@ -1920,7 +1969,7 @@
 
     const compressed = window.LZString.compressToEncodedURIComponent(JSON.stringify(dataToEncode));
     const baseUrl = window.location.origin + window.location.pathname;
-    const shareUrl = `${baseUrl}?c=${compressed}`;
+    const shareUrl = `${baseUrl}?c=${compressed}&view=card&v=${Date.now()}`;
 
     shareLinkInputVal.value = shareUrl;
     shareLinkModal.classList.add('active');
@@ -1953,8 +2002,13 @@
   startAvatarSlideshow();
 
   if (isRecipientMode) {
-    // Ẩn nút Studio khi người nhận mở thiệp
-    btnStudioToggle.style.display = 'none';
+    // CHẾ ĐỘ NGƯỜI NHẬN: Gắn class và XÓA HOÀN TOÀN toàn bộ nút / studio / nav khỏi DOM
+    document.body.classList.add('recipient-mode');
+    ['btn-studio-toggle', 'creator-studio-modal', 'share-link-modal'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    });
+    document.querySelectorAll('.top-nav, header, .brand-badge, .act-pills').forEach(el => el.remove());
   } else {
     // Nếu vào link gốc chưa có ?c=...: mở Studio sẵn sàng cho người dùng tạo
     populateStudioForm();
