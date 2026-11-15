@@ -1,0 +1,795 @@
+﻿/* ==========================================================================
+   HAPPY BIRTHDAY WEBSITE - INSPIRED BY DR.GIFTER
+   ========================================================================== */
+
+:root {
+  --primary-yellow: #ffd000;
+  --dark-border: #1e1e1e;
+  --text-dark: #1b1b1b;
+  --pink-accent: #f472b6;
+  --bg-cream: #faf7f2;
+  --font-main: 'Fredoka', 'Quicksand', sans-serif;
+  --font-body: 'Nunito', sans-serif;
+  --font-cursive: 'Dancing Script', cursive;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: var(--bg-cream);
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ==================== UTILITIES ==================== */
+.hide {
+  display: none !important;
+}
+
+/* Music Toggle Button */
+.music-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--primary-yellow);
+  border: 3px solid var(--dark-border);
+  box-shadow: 2px 3px 0 var(--dark-border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: var(--dark-border);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.music-toggle:hover {
+  transform: scale(1.1) rotate(15deg);
+}
+
+.music-toggle.playing {
+  animation: spinMusic 3s linear infinite;
+}
+
+@keyframes spinMusic {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Petals Falling */
+.petals-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.petal {
+  position: absolute;
+  top: -30px;
+  background: linear-gradient(135deg, #ffccd5, #fca5a5);
+  border-radius: 150% 0 150% 0;
+  opacity: 0.75;
+  animation: fallPetal linear infinite;
+}
+
+@keyframes fallPetal {
+  0% {
+    transform: translateY(0) rotate(0deg) translateX(0);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(105vh) rotate(540deg) translateX(80px);
+    opacity: 0.2;
+  }
+}
+
+/* ==================== SCREEN 1: INTRO GIFT ==================== */
+.intro-screen {
+  position: fixed;
+  inset: 0;
+  background-color: var(--bg-cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.intro-screen.fade-out {
+  opacity: 0;
+  transform: scale(1.08);
+  pointer-events: none;
+}
+
+.intro-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+/* 3D Gift Box Animation */
+.gift-box {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  cursor: pointer;
+  animation: bounceGift 1.8s ease-in-out infinite;
+  filter: drop-shadow(0 12px 18px rgba(0,0,0,0.15));
+}
+
+@keyframes bounceGift {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-16px) scale(1.05); }
+}
+
+.gift-lid {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 120px;
+  height: 28px;
+  background: #f43f5e;
+  border: 4px solid var(--dark-border);
+  border-radius: 8px;
+  z-index: 2;
+}
+
+.gift-bow {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 18px;
+}
+
+.gift-bow::before,
+.gift-bow::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: 4px solid var(--dark-border);
+  border-radius: 50% 50% 0 50%;
+  background: var(--primary-yellow);
+}
+
+.gift-bow::before {
+  left: -4px;
+  transform: rotate(-30deg);
+}
+
+.gift-bow::after {
+  right: -4px;
+  transform: rotate(30deg) scaleX(-1);
+}
+
+.gift-body {
+  position: absolute;
+  top: 40px;
+  left: 10px;
+  width: 100px;
+  height: 80px;
+  background: #fbbf24;
+  border: 4px solid var(--dark-border);
+  border-radius: 0 0 10px 10px;
+  overflow: hidden;
+}
+
+.gift-ribbon-v {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 100%;
+  background: #f43f5e;
+  border-left: 3px solid var(--dark-border);
+  border-right: 3px solid var(--dark-border);
+}
+
+.gift-ribbon-h {
+  position: absolute;
+  top: 35%;
+  width: 100%;
+  height: 20px;
+  background: #f43f5e;
+  border-top: 3px solid var(--dark-border);
+  border-bottom: 3px solid var(--dark-border);
+}
+
+.intro-text {
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-family: var(--font-main);
+  color: var(--text-dark);
+  letter-spacing: 0.5px;
+  animation: pulseText 2s ease-in-out infinite;
+}
+
+@keyframes pulseText {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+
+/* ==================== SCREEN 2: MAIN BIRTHDAY BANNER ==================== */
+.main-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  position: relative;
+  z-index: 10;
+}
+
+.birthday-container {
+  max-width: 950px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+  margin: auto;
+}
+
+/* Left Section */
+.left-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.title-wrap {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.happy-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.text-happy {
+  font-family: var(--font-main);
+  font-size: 5rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-transform: capitalize;
+  text-shadow: 
+    4px 4px 0 var(--dark-border),
+    -3px -3px 0 var(--dark-border),
+    3px -3px 0 var(--dark-border),
+    -3px 3px 0 var(--dark-border),
+    0 6px 0 var(--dark-border);
+  letter-spacing: 1px;
+}
+
+.party-hat {
+  position: absolute;
+  top: -46px;
+  right: -24px;
+  width: 70px;
+  height: 80px;
+  transform: rotate(20deg);
+  animation: hatBounce 2.5s ease-in-out infinite;
+  z-index: 5;
+}
+
+@keyframes hatBounce {
+  0%, 100% { transform: rotate(20deg) translateY(0); }
+  50% { transform: rotate(14deg) translateY(-8px); }
+}
+
+.hat-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(2px 3px 0 rgba(0,0,0,0.25));
+}
+
+.text-birthday {
+  font-family: var(--font-main);
+  font-size: 5rem;
+  font-weight: 800;
+  color: var(--primary-yellow);
+  text-transform: capitalize;
+  margin-top: -6px;
+  text-shadow: 
+    4px 4px 0 var(--dark-border),
+    -3px -3px 0 var(--dark-border),
+    3px -3px 0 var(--dark-border),
+    -3px 3px 0 var(--dark-border),
+    0 6px 0 var(--dark-border);
+  letter-spacing: 1px;
+}
+
+/* Date Pill Badge */
+.date-badge {
+  background-color: var(--primary-yellow);
+  border: 3.5px solid var(--dark-border);
+  border-radius: 30px;
+  padding: 8px 30px;
+  font-family: var(--font-main);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--dark-border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 3px 4px 0 var(--dark-border);
+}
+
+.star-icon {
+  font-size: 1rem;
+  color: var(--dark-border);
+}
+
+/* Mascot */
+.mascot-wrapper {
+  margin-left: 20px;
+}
+
+.mascot {
+  width: 110px;
+  height: 110px;
+  animation: swayMascot 2.2s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes swayMascot {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg) translateY(-4px); }
+}
+
+.mascot-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(2px 4px 0 rgba(0,0,0,0.15));
+}
+
+/* Open Letter Button */
+.btn-open-letter {
+  background-color: var(--primary-yellow);
+  border: 3.5px solid var(--dark-border);
+  border-radius: 30px;
+  padding: 10px 36px;
+  font-family: var(--font-main);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--dark-border);
+  cursor: pointer;
+  box-shadow: 3px 4px 0 var(--dark-border);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  margin-top: 5px;
+}
+
+.btn-open-letter:hover {
+  transform: translateY(-3px);
+  box-shadow: 3px 7px 0 var(--dark-border);
+}
+
+.btn-open-letter:active {
+  transform: translateY(2px);
+  box-shadow: 1px 2px 0 var(--dark-border);
+}
+
+/* Right Section */
+.right-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: floatBox 3.5s ease-in-out infinite;
+}
+
+@keyframes floatBox {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+/* Image Circular Frame */
+.image-wrapper {
+  position: relative;
+  z-index: 5;
+}
+
+.image {
+  width: 270px;
+  height: 270px;
+  border-radius: 50%;
+  border: 6px solid var(--dark-border);
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 4px 6px 0 var(--dark-border);
+}
+
+.image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease, opacity 0.5s ease;
+}
+
+/* Balloons */
+.balloon {
+  position: absolute;
+  pointer-events: none;
+}
+
+.balloon-left {
+  top: -50px;
+  left: -80px;
+  width: 180px;
+  z-index: 2;
+  animation: swayBalloonLeft 3.8s ease-in-out infinite;
+}
+
+.balloon-right {
+  top: 10px;
+  right: -75px;
+  width: 170px;
+  z-index: 2;
+  animation: swayBalloonRight 4.2s ease-in-out infinite;
+}
+
+@keyframes swayBalloonLeft {
+  0%, 100% { transform: rotate(-4deg) translateY(0); }
+  50% { transform: rotate(3deg) translateY(-10px); }
+}
+
+@keyframes swayBalloonRight {
+  0%, 100% { transform: rotate(5deg) translateY(0); }
+  50% { transform: rotate(-3deg) translateY(-8px); }
+}
+
+.balloon-img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.15));
+}
+
+/* Name Badge */
+.name {
+  margin-top: 18px;
+  background-color: var(--primary-yellow);
+  border: 3.5px solid var(--dark-border);
+  border-radius: 30px;
+  padding: 8px 34px;
+  font-family: var(--font-main);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--dark-border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 3px 4px 0 var(--dark-border);
+  z-index: 6;
+}
+
+.heart-icon {
+  font-size: 1.1rem;
+  color: #ef4444;
+  animation: beatHeart 1.4s ease-in-out infinite;
+}
+
+@keyframes beatHeart {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+}
+
+/* ==================== SCREEN 3: LETTER & FIREWORKS MODAL ==================== */
+.letter-modal {
+  position: fixed;
+  inset: 0;
+  background-color: #060611;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#fireworks-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Vintage Letter Card */
+.letter-card {
+  position: relative;
+  z-index: 10;
+  width: 90%;
+  max-width: 600px;
+  background: #fdfaf3;
+  border: 4px solid #b48a3c;
+  border-radius: 12px;
+  box-shadow: 0 0 35px rgba(251, 191, 36, 0.4), 0 20px 40px rgba(0,0,0,0.8);
+  padding: 35px 35px 30px 35px;
+  animation: zoomInLetter 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes zoomInLetter {
+  0% { transform: scale(0.6) translateY(50px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* Vintage Corners */
+.corner {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: 3px solid #b48a3c;
+}
+
+.corner-tl { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+.corner-tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+.corner-bl { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+.corner-br { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+
+.btn-close-letter {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #78581c;
+  cursor: pointer;
+  line-height: 1;
+  transition: transform 0.2s, color 0.2s;
+  z-index: 15;
+}
+
+.btn-close-letter:hover {
+  transform: scale(1.2) rotate(90deg);
+  color: #b48a3c;
+}
+
+.letter-header {
+  font-family: var(--font-cursive);
+  font-size: 2.8rem;
+  color: #5c4217;
+  text-align: center;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.letter-body {
+  font-family: 'Caveat', cursive, var(--font-body);
+  font-size: 1.55rem;
+  line-height: 1.7;
+  color: #3f2f18;
+  min-height: 180px;
+  text-align: justify;
+  letter-spacing: 0.3px;
+}
+
+/* Typewriter Caret */
+.letter-body p::after {
+  content: '|';
+  color: #b48a3c;
+  font-weight: bold;
+  animation: blinkCaret 0.8s infinite;
+}
+
+.letter-body.done p::after {
+  display: none;
+}
+
+@keyframes blinkCaret {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.letter-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 25px;
+  padding-top: 15px;
+  border-top: 1.5px dashed #d4af62;
+}
+
+.btn-start-memories {
+  background: #fef3c7;
+  border: 2px dashed #b48a3c;
+  border-radius: 20px;
+  padding: 8px 24px;
+  font-family: var(--font-main);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #78581c;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-start-memories:hover {
+  background: #b48a3c;
+  color: #fff;
+  border-color: #fff;
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(180, 138, 60, 0.4);
+}
+
+.envelope-stamp {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  animation: bounceStamp 2s infinite ease-in-out;
+}
+
+@keyframes bounceStamp {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* ==================== SCREEN 4: FLOATING POLAROID GALLERY ==================== */
+.polaroid-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 5;
+}
+
+.polaroid-card {
+  position: absolute;
+  bottom: -220px;
+  width: 140px;
+  background: #ffffff;
+  padding: 8px 8px 20px 8px;
+  border-radius: 4px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 255, 255, 0.2);
+  pointer-events: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease, z-index 0s, box-shadow 0.3s ease;
+  animation: floatUp linear infinite;
+}
+
+.polaroid-card img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 2px;
+  display: block;
+}
+
+.polaroid-card .polaroid-caption {
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem;
+  text-align: center;
+  color: #4b5563;
+  margin-top: 6px;
+  font-weight: 700;
+}
+
+.polaroid-card:hover {
+  animation-play-state: paused !important;
+  transform: scale(1.6) rotate(0deg) !important;
+  z-index: 100 !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(250, 204, 21, 0.8);
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) rotate(var(--rot)) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-135vh) rotate(calc(var(--rot) * 1.5)) translateX(var(--drift));
+    opacity: 0;
+  }
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+@media (max-width: 820px) {
+  .birthday-container {
+    flex-direction: column-reverse;
+    gap: 30px;
+    text-align: center;
+  }
+
+  .left-section {
+    align-items: center;
+  }
+
+  .text-happy, .text-birthday {
+    font-size: 3.8rem;
+  }
+
+  .image {
+    width: 220px;
+    height: 220px;
+  }
+
+  .balloon-left {
+    width: 130px;
+    left: -50px;
+    top: -30px;
+  }
+
+  .balloon-right {
+    width: 130px;
+    right: -50px;
+  }
+
+  .letter-card {
+    padding: 25px 20px;
+  }
+
+  .letter-body {
+    font-size: 1.35rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .text-happy, .text-birthday {
+    font-size: 2.9rem;
+  }
+
+  .party-hat {
+    width: 50px;
+    height: 60px;
+    top: -35px;
+    right: -15px;
+  }
+
+  .date-badge, .name, .btn-open-letter {
+    font-size: 1.1rem;
+    padding: 6px 20px;
+  }
+
+  .image {
+    width: 180px;
+    height: 180px;
+  }
+
+  .polaroid-card {
+    width: 110px;
+    padding: 6px 6px 16px 6px;
+  }
+
+  .polaroid-card img {
+    height: 100px;
+  }
+}
