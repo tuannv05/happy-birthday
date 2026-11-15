@@ -15,7 +15,7 @@
   <!-- Google Fonts Hỗ Trợ Đầy Đủ Tiếng Việt -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@600;700&family=Fredoka:wght@500;600;700;800&family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Dancing+Script:wght@700&family=Fredoka:wght@600;700;800&family=Nunito:wght@600;700;800&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
 
   <!-- FontAwesome Icons 6.5.1 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -37,9 +37,10 @@
     --pink-accent: #f472b6;
     --bg-cream: #faf7f2;
     --font-main: 'Fredoka', 'Quicksand', sans-serif;
-    --font-body: 'Nunito', sans-serif;
+    --font-body: 'Nunito', 'Be Vietnam Pro', sans-serif;
     --font-cursive: 'Dancing Script', cursive;
-    --font-hand: 'Caveat', cursive, sans-serif;
+    --font-letter: 'Quicksand', 'Be Vietnam Pro', 'Nunito', sans-serif;
+    --font-hand: 'Quicksand', 'Nunito', sans-serif;
   }
 
   * {
@@ -678,21 +679,27 @@
 
   .letter-header {
     font-family: var(--font-cursive);
-    font-size: 2.8rem;
-    color: #5c4217;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #78350f;
     text-align: center;
-    margin-bottom: 20px;
-    letter-spacing: 1px;
+    margin-bottom: 22px;
+    letter-spacing: 1.5px;
+    text-shadow: 1px 1px 0 rgba(251, 191, 36, 0.35);
   }
 
   .letter-body {
-    font-family: var(--font-hand);
-    font-size: 1.55rem;
-    line-height: 1.7;
-    color: #3f2f18;
+    font-family: var(--font-letter);
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.95;
+    color: #26190f;
     min-height: 180px;
-    text-align: justify;
-    letter-spacing: 0.3px;
+    text-align: left;
+    letter-spacing: 0.15px;
+    white-space: pre-line;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
   }
 
   /* Typewriter Caret */
@@ -787,12 +794,13 @@
   }
 
   .polaroid-card .polaroid-caption {
-    font-family: var(--font-hand);
-    font-size: 1.1rem;
+    font-family: var(--font-main);
+    font-size: 1.12rem;
     text-align: center;
-    color: #4b5563;
+    color: #1e1e1e;
     margin-top: 6px;
     font-weight: 700;
+    letter-spacing: 0.3px;
   }
 
   .polaroid-card:hover {
@@ -1095,7 +1103,8 @@
     }
 
     .letter-body {
-      font-size: 1.35rem;
+      font-size: 1.12rem;
+      line-height: 1.85;
     }
 
     .form-row-2 { grid-template-columns: 1fr; }
@@ -1422,7 +1431,7 @@
   let CONFIG = {
     name: "Ju Jing Yi",
     date: { day: "18", month: "6" },
-    letter: "Nhân ngày đặc biệt này, chúc bạn luôn có thật nhiều sức khỏe để theo đuổi những ước mơ của mình. Thật nhiều niềm vui để mỗi ngày trôi qua đều là một ngày đáng nhớ, và thật nhiều may mắn để mọi điều đều thuận lợi. Mong rằng tuổi mới sẽ mang đến cho bạn những cơ hội mới, những trải nghiệm đáng giá và những khoảnh khắc hạnh phúc bên gia đình, bạn bè và những người yêu thương. Tuổi mới thật rực rỡ và luôn luôn mỉm cười nhé! ✨🎂",
+    letter: "Nhân ngày đặc biệt này, chúc bạn luôn có thật nhiều sức khỏe để theo đuổi những ước mơ của mình!\n\nThật nhiều niềm vui để mỗi ngày trôi qua đều là một ngày đáng nhớ, và thật nhiều may mắn để mọi điều đều thuận lợi. Mong rằng tuổi mới sẽ mang đến cho bạn những cơ hội mới, những trải nghiệm đáng giá và những khoảnh khắc hạnh phúc bên gia đình, bạn bè và những người yêu thương.\n\nTuổi mới thật rực rỡ, thành công và luôn luôn mỉm cười nhé! ✨🎂",
     photos: [
       "./style/img/Anh (1).jpg",
       "./style/img/Anh (2).jpg",
